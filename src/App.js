@@ -1,8 +1,7 @@
 import { apiService } from './services/api-service';
 
 function App() {
-  apiService.getData('planets', 'residents')
-  apiService.getData('vehicles', 'pilots')
+  apiService.initCalculation()
   return (
     <div className="App">
 
