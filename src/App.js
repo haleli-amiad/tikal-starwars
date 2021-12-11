@@ -7,21 +7,21 @@ import Yoda from "./assets/lottie/yoda.json";
 
 export default function App() {
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    getData()
+    getData();
     return () => {
     }
   }, [])
 
   const getData = async () => {
     try {
-      var res = await swapiService.initSwapi()
+      var res = await swapiService.initSwapi();
     } catch (error) {
-      console.log('error retrieving data:', error)
+      console.log('error retrieving data:', error);
     } finally {
-      setData(res)
+      setData(res);
     }
   }
 

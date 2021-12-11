@@ -1,5 +1,4 @@
 export default function Table({ data }) {
-  console.log(data);
   return (
     <table>
       <tbody>

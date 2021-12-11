@@ -6,9 +6,7 @@ export default function Chart({ data }) {
           <li key={planet.name}>
             <h5>{planet.population}</h5>
             <div style={{ height: `${planet.population / 10000000}px` }} />
-            <p>
-              {planet.name}
-              </p>
+            <p>{planet.name}</p>
           </li>
         ))}
       </ul>
