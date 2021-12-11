@@ -29,9 +29,9 @@ export default function App() {
     <div className="App main-layout">
       <h1>Swapi Challenge</h1>
       <Table data={data} />
-      <div className="flex space">
-        <Lottie animationData={Yoda} className="lottie" />
+      <div className="flex space mobile-wrap">
         <Chart data={data} />
+        <Lottie animationData={Yoda} className="lottie" />
       </div>
     </div>
   );

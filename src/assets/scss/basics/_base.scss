@@ -3,8 +3,11 @@
 }
 
 .lottie {
-	max-width: 55%;
-	align-self: flex-end;
+	@include for-normal-layout{
+		max-width: 55%;
+		width: 50%;
+		align-self: flex-end;
+	}
 }
 
 html {

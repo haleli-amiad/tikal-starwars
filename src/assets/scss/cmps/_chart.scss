@@ -1,10 +1,17 @@
 .chart {
 	align-items: flex-end;
-	width: 40%;
-	li{
+	width: 100vw;
+	@include for-normal-layout {
+		max-width: 40%;
+	}
+	li {
 		align-self: flex-end;
-		margin-inline: 1rem;
+		margin-inline: 0.5rem;
+		p {
+			font-weight: bold;
+		}
 		div {
+			border: 1px solid $text;
 			background-color: $subcolor;
 		}
 	}
