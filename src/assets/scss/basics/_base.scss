@@ -52,6 +52,11 @@ p {
 h1,
 h3 {
 	font-family: Courier New, sans-serif;
+	border-bottom: 2px solid $subcolor;
+	width: fit-content;
+	letter-spacing: 0px;
+	line-height: 2.6rem;
+	margin: 3rem auto;
 }
 
 h1,

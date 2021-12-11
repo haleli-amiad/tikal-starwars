@@ -1,10 +1,10 @@
 const BASE_URL = "https://swapi.dev/api/";
 
-export const apiService = {
+export const swapiService = {
     initSwapi
 }
 
-// Root & exported function for initializing calculation 
+// Root exported function for initializing data calculation 
 async function initSwapi() {
     let swapi = JSON.parse(localStorage.getItem('swapi'));
     if (!swapi) {
@@ -24,24 +24,16 @@ function getDataForChart(planets) {
 }
 
 // Finalizing data calculation for the table
-async function getDataForTable(planets, vehicles) {
+function getDataForTable(planets, vehicles) {
     const pilots = createPilotsMap(vehicles)
-    const summed = await sumPopulation(pilots, planets)
+    const summed = sumPopulation(pilots, planets)
     return summed
-}
-
-// Querying for pilots names
-async function getPilots(data) {
-    await Promise.all(data.pilotsUrls.map(async pilot => {
-        await fetch(pilot).then(response => response.json()).then(response => { data.pilotNames.push(response.name) })
-    }))
-    return data
 }
 
 // Function for creating data map of pilots, vehicles & planets
 function createPilotsMap(data) {
     const pilots = [];
-    data.map((vehicle) => pilots.push({ pilotsUrls: vehicle.pilots, drivingOn: vehicle.name, populationSum: 0, planets: [], pilotNames: [] }))
+    data.map((vehicle) => pilots.push({ pilotsUrls: vehicle.pilots, vehicle: vehicle.name, populationSum: 0, planets: [], pilotNames: [] }))
     return pilots
 }
 
@@ -57,10 +49,18 @@ function sumPopulation(pilots, planets) {
     return getLargestSum(pilots)
 }
 
-// Sorting by population in order to find the relevant vehicle
+// Sorting by population size and return only relevant vehicle
 function getLargestSum(pilots) {
     pilots.sort((a, b) => b.populationSum - a.populationSum)
     return getPilots(pilots[0])
+}
+
+// Querying for pilots names
+async function getPilots(data) {
+    await Promise.all(data.pilotsUrls.map(async pilot => {
+        await fetch(pilot).then(response => response.json()).then(response => { data.pilotNames.push(response.name) })
+    }))
+    return data
 }
 
 // Reusable function for filtering data by array length (true or false)
@@ -89,7 +89,6 @@ async function getData(dataType, filterBy) {
     } catch (error) {
         console.log('had issue getting data:', error);
     } finally {
-        result.data = filterData(result.data, filterBy)
-        return result.data
+        return filterData(result.data, filterBy)
     }
 }

@@ -1,10 +1,11 @@
 export default function Table({ data }) {
+  console.log(data);
   return (
     <table>
       <tbody>
         <tr>
           <td>Vehicle name with the largest sum:</td>
-          <td>{data.drivingOn}</td>
+          <td>{data.vehicle}</td>
         </tr>
         <tr>
           <td>Related home planets and their respective population:</td>

@@ -1,12 +1,14 @@
-import { apiService } from './services/api-service';
+import { swapiService } from './services/swapi-service';
 import { useEffect, useState } from 'react';
 import Table from './components/Table';
 import Chart from './components/Chart';
 import Lottie from "lottie-react";
 import Yoda from "./assets/lottie/yoda.json";
 
-function App() {
+export default function App() {
+
   const [data, setData] = useState(null)
+
   useEffect(() => {
     getData()
     return () => {
@@ -15,9 +17,9 @@ function App() {
 
   const getData = async () => {
     try {
-      var res = await apiService.initSwapi()
+      var res = await swapiService.initSwapi()
     } catch (error) {
-      console.log(error)
+      console.log('error retrieving data:', error)
     } finally {
       setData(res)
     }
@@ -34,5 +36,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
