@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/tikal-starwars/static/css/main.bf6f5ac7.chunk.css",
+    "main.js": "/tikal-starwars/static/js/main.32aad944.chunk.js",
+    "main.js.map": "/tikal-starwars/static/js/main.32aad944.chunk.js.map",
+    "runtime-main.js": "/tikal-starwars/static/js/runtime-main.bc7fc98a.js",
+    "runtime-main.js.map": "/tikal-starwars/static/js/runtime-main.bc7fc98a.js.map",
+    "static/js/2.6c8a9db6.chunk.js": "/tikal-starwars/static/js/2.6c8a9db6.chunk.js",
+    "static/js/2.6c8a9db6.chunk.js.map": "/tikal-starwars/static/js/2.6c8a9db6.chunk.js.map",
+    "static/js/3.8ba59100.chunk.js": "/tikal-starwars/static/js/3.8ba59100.chunk.js",
+    "static/js/3.8ba59100.chunk.js.map": "/tikal-starwars/static/js/3.8ba59100.chunk.js.map",
+    "index.html": "/tikal-starwars/index.html",
+    "static/css/main.bf6f5ac7.chunk.css.map": "/tikal-starwars/static/css/main.bf6f5ac7.chunk.css.map",
+    "static/js/2.6c8a9db6.chunk.js.LICENSE.txt": "/tikal-starwars/static/js/2.6c8a9db6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bc7fc98a.js",
+    "static/js/2.6c8a9db6.chunk.js",
+    "static/css/main.bf6f5ac7.chunk.css",
+    "static/js/main.32aad944.chunk.js"
+  ]
+}
