@@ -1,26 +1,38 @@
 const BASE_URL = "https://swapi.dev/api/";
 
 export const apiService = {
-    initCalculation
+    initSwapi
 }
 
-async function initCalculation() {
-    const planets = await getData('planets', 'residents')
-    const vehicles = await getData('vehicles', 'pilots')
-    const pilots = getPilotsMapped(vehicles)
-    const winner = addPlanetData(pilots, planets)
+// Root & exported function for initializing calculation 
+async function initSwapi() {
+    const planetsData = await getData('planets', 'residents')
+    const vehiclesData = await getData('vehicles', 'pilots')
+    const pilotsData = createPilotsMap(vehiclesData)
+    const summed = await sumPopulation(pilotsData, planetsData)
+    return summed
 }
 
-function getPilotsMapped(vehicles) {
+// Fetching pilots names
+async function getPilots(data) {
+    await Promise.all(data.pilotsUrls.map(async pilot => {
+        await fetch(pilot).then(response => response.json()).then(response => { data.pilotNames.push(response.name) })
+    }))
+    return data
+}
+
+// Function for creating data map of pilots, vehicles & planets
+function createPilotsMap(data) {
     const pilots = [];
-    vehicles.map((vehicle) => pilots.push({ pilotUrls: vehicle.pilots, drivingOn: vehicle.name, populationSum: 0, planets: [] }))
+    data.map((vehicle) => pilots.push({ pilotsUrls: vehicle.pilots, drivingOn: vehicle.name, populationSum: 0, planets: [], pilotNames: [] }))
     return pilots
 }
 
-function addPlanetData(pilots, planets) {
-    pilots.map(pilot => pilot.pilotUrls.map(pilotUrl => planets.map(planet => {
+// Adding planet data and summing relevant planets population
+function sumPopulation(pilots, planets) {
+    pilots.map(pilot => pilot.pilotsUrls.map(pilotUrl => planets.map(planet => {
         if (planet.residents.includes(pilotUrl) && planet.population !== 'unknown') {
-            pilot.planets.push(planet)
+            pilot.planets.push({ name: planet.name, population: planet.population })
             pilot.populationSum += +planet.population
         }
         return pilot
@@ -28,11 +40,18 @@ function addPlanetData(pilots, planets) {
     return getLargestSum(pilots)
 }
 
+// Sorting by population in order to find the relevant vehicle
 function getLargestSum(pilots) {
     pilots.sort((a, b) => b.populationSum - a.populationSum)
-    return pilots[0]
+    return getPilots(pilots[0])
 }
 
+// Reusable function for filtering data by array length (true or false)
+function filterData(data, filterBy) {
+    return data.filter(item => item[filterBy].length)
+}
+
+// Reusable function for fetching data from swapi
 async function fetchApi(data, prevData, next = null) {
     let url = next ? next : `${BASE_URL}${data}`
     return await fetch(url).then(response => response.json()).then(response => {
@@ -43,6 +62,7 @@ async function fetchApi(data, prevData, next = null) {
     })
 }
 
+// Reusable function for fetching data from swapi & checking if there is another page, storing to localstorage
 async function getData(dataType, filterBy) {
     let result = JSON.parse(localStorage.getItem(dataType));
     if (!result) {
@@ -60,8 +80,4 @@ async function getData(dataType, filterBy) {
         }
     }
     return result
-}
-
-function filterData(data, filterBy) {
-    return data.filter(item => item[filterBy].length)
 }
