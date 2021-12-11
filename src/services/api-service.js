@@ -6,10 +6,23 @@ export const apiService = {
 
 // Root & exported function for initializing calculation 
 async function initSwapi() {
-    const planetsData = await getData('planets', 'residents')
-    const vehiclesData = await getData('vehicles', 'pilots')
-    const pilotsData = createPilotsMap(vehiclesData)
-    const summed = await sumPopulation(pilotsData, planetsData)
+    const planets = await getData('planets', 'residents')
+    const vehicles = await getData('vehicles', 'pilots')
+    const data = await getDataForTable(planets, vehicles)
+    data.chart = getDataForChart(planets)
+    return data
+}
+
+// Filtering name & population of relevant planets
+function getDataForChart(planets) {
+    const planetsNames = ['Tatooine', 'Alderaan', 'Naboo', 'Bespin', 'Endor']
+    return planets.filter(planet => planetsNames.includes(planet.name)).map(planet => planet = { name: planet.name, population: planet.population })
+}
+
+// Finalizing data calculation for the table
+async function getDataForTable(planets, vehicles) {
+    const pilots = createPilotsMap(vehicles)
+    const summed = await sumPopulation(pilots, planets)
     return summed
 }
 

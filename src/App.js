@@ -1,6 +1,7 @@
 import { apiService } from './services/api-service';
 import { useEffect, useState } from 'react';
 import Table from './components/Table';
+import Chart from './components/Chart';
 
 function App() {
   const [data, setData] = useState(null)
@@ -23,6 +24,7 @@ function App() {
   return (data &&
     <div className="App">
       <Table data={data} />
+      <Chart data={data} />
     </div>
   );
 }
