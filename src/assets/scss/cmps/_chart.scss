@@ -1,0 +1,11 @@
+.chart {
+	align-items: flex-end;
+	width: 40%;
+	li{
+		align-self: flex-end;
+		margin-inline: 1rem;
+		div {
+			background-color: $subcolor;
+		}
+	}
+}

@@ -6,11 +6,15 @@ export const apiService = {
 
 // Root & exported function for initializing calculation 
 async function initSwapi() {
-    const planets = await getData('planets', 'residents')
-    const vehicles = await getData('vehicles', 'pilots')
-    const data = await getDataForTable(planets, vehicles)
-    data.chart = getDataForChart(planets)
-    return data
+    let swapi = JSON.parse(localStorage.getItem('swapi'));
+    if (!swapi) {
+        const planets = await getData('planets', 'residents')
+        const vehicles = await getData('vehicles', 'pilots')
+        swapi = await getDataForTable(planets, vehicles)
+        swapi.chart = getDataForChart(planets)
+        localStorage.setItem('swapi', JSON.stringify(swapi));
+    }
+    return swapi
 }
 
 // Filtering name & population of relevant planets
@@ -26,7 +30,7 @@ async function getDataForTable(planets, vehicles) {
     return summed
 }
 
-// Fetching pilots names
+// Querying for pilots names
 async function getPilots(data) {
     await Promise.all(data.pilotsUrls.map(async pilot => {
         await fetch(pilot).then(response => response.json()).then(response => { data.pilotNames.push(response.name) })
@@ -64,7 +68,7 @@ function filterData(data, filterBy) {
     return data.filter(item => item[filterBy].length)
 }
 
-// Reusable function for fetching data from swapi
+// Reusable function for fetching data from Swapi
 async function fetchApi(data, prevData, next = null) {
     let url = next ? next : `${BASE_URL}${data}`
     return await fetch(url).then(response => response.json()).then(response => {
@@ -75,22 +79,17 @@ async function fetchApi(data, prevData, next = null) {
     })
 }
 
-// Reusable function for fetching data from swapi & checking if there is another page, storing to localstorage
+// Reusable function for fetching data from Swapi & checking if there is a next page
 async function getData(dataType, filterBy) {
-    let result = JSON.parse(localStorage.getItem(dataType));
-    if (!result) {
-        try {
-            result = await fetchApi(dataType)
-            while (result.next) {
-                result = await fetchApi(dataType, result.data, result.next)
-            }
-        } catch (error) {
-            console.log('had issue getting data:', error);
-        } finally {
-            result.data = filterData(result.data, filterBy)
-            localStorage.setItem(dataType, JSON.stringify(result.data));
-            return result.data
+    try {
+        var result = await fetchApi(dataType)
+        while (result.next) {
+            result = await fetchApi(dataType, result.data, result.next)
         }
+    } catch (error) {
+        console.log('had issue getting data:', error);
+    } finally {
+        result.data = filterData(result.data, filterBy)
+        return result.data
     }
-    return result
 }

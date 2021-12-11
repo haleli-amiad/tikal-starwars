@@ -1,0 +1,32 @@
+.main-layout {
+	display: grid;
+	grid-template-columns: minmax(1rem, 1fr) minmax(auto, 260px) minmax(1rem, 1fr);
+	margin: 0 auto;
+	
+
+	@include for-narrow-layout {
+		grid-template-columns: minmax(2rem, 1fr) minmax(auto, 340px) minmax(2rem, 1fr);
+	}
+	@include for-mid-layout {
+		grid-template-columns: minmax(2rem, 1fr) minmax(auto, 750px) minmax(2rem, 1fr);
+	}
+	@include for-normal-layout {
+		grid-template-columns: minmax(1rem, 1fr) minmax(auto, 850px) minmax(1rem, 1fr);
+	}
+	@include for-wide-layout {
+		grid-template-columns: minmax(2rem, 1fr) minmax(1000px, 1050px) minmax(2rem, 1fr);
+	}
+	> * {
+		grid-column: 2;
+	}
+
+	> .full {
+		grid-column: 1 / -1;
+	}
+
+	&#app {
+		min-height: 100vh;
+		grid-template-rows: auto 1fr;
+	}
+	overflow-x: hidden;
+}

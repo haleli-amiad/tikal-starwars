@@ -1,0 +1,10 @@
+table {
+	td {
+		border: 1px solid rgba(0, 0, 0, 0.452);
+		&:first-of-type {
+			font-weight: bold;
+			color: $subcolor;
+			background-color: #323934;
+		}
+	}
+}
